@@ -103,7 +103,7 @@ exports.logout = (req, res, next) => {
            message: 'You have been Logged Out.',
         });
      } else {
-        res.status(400).send({
+        res.status(500).send({
            message: 'Error!',
         });
      }
