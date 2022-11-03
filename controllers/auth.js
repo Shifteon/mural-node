@@ -93,3 +93,19 @@ exports.login = (req, res, next) => {
       return res.status(500);
     });
 };
+
+exports.logout = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+
+  jwt.sign(authHeader, '', { expiresIn: 1 }, (logout, err) => {
+     if (logout) {
+        res.status(201).send({
+           message: 'You have been Logged Out.',
+        });
+     } else {
+        res.status(400).send({
+           message: 'Error!',
+        });
+     }
+  });
+};

@@ -2,6 +2,7 @@ var express = require('express');
 const { body } = require('express-validator');
 const authController = require('../controllers/auth');
 const userUtil = require('../db/userUtil');
+const isAuth = require('../middleware/isAuth');
 var router = express.Router();
 
 router.put('/signup',
@@ -35,6 +36,6 @@ router.post('/login',
   authController.login
 );
 
-//TODO: add logout route
+router.get('/logout', isAuth, authController.logout);
 
 module.exports = router;
