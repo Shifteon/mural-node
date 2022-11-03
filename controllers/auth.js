@@ -2,6 +2,8 @@ const userUtil = require('../db/userUtil');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const { unmarshall } = require('@aws-sdk/util-dynamodb');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.signup = (req, res, next) => {
   // check for errors
@@ -51,23 +53,43 @@ exports.login = (req, res, next) => {
   const password = req.body.password;
 
   userUtil.getUser(username)
-    .then(res => {
+    .then(record => {
       // check if user exists
-      if (!res.Item) {
-        return res.status(422);
+      console.log(record.Item);
+      if (record.Item == undefined) {
+        return res.status(422).send({
+          message: 'Invalid Credentials!'
+        });
       }
 
-      const user = unmarshall(res.Item);
+      const user = unmarshall(record.Item);
 
       bcrypt.compare(password, user.password)
         .then( doMatch => {
           if (doMatch) {
-
+            // user is authenticated
+            accessToken = jwt.sign(
+              { user },
+              process.env.TOKEN_SECRET,
+              { expiresIn: '1h' }
+            );
+            return res.status(200).json({
+              accessToken: accessToken
+            });
+          } else {
+            // user couldn't be authenticated
+            res.status(422).send({
+              message: 'Invalid Credentials!'
+           });
           }
         })
         .catch(error => {
           console.log(error);
           return res.status(500);
-        })
+        });
     })
+    .catch(error => {
+      console.log(error);
+      return res.status(500);
+    });
 };

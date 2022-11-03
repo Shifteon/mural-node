@@ -15,8 +15,8 @@ router.put('/signup',
       .custom((value, { req }) => {
         // make sure username doesn't exist
         return userUtil.getUser(value)
-          .then(res => {
-            if (res.Item) {
+          .then(record => {
+            if (record.Item) {
               return Promise.reject('Username already in use');
             }
           });
