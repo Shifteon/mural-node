@@ -6,27 +6,34 @@ var router = express.Router();
 
 router.put('/signup',
   [
-    body('email')
+    body('user.email')
       .isEmail()
-      .withMessage('Please enter a valid email'),
-    body('username')
+      .withMessage('Please enter a valid email')
+      .normalizeEmail(),
+    body('user.username')
       .trim()
-      .not().isEmpty()
       .custom((value, { req }) => {
         // make sure username doesn't exist
-        userUtil.getUser(value)
+        return userUtil.getUser(value)
           .then(res => {
-            if (res.item) {
+            if (res.Item) {
               return Promise.reject('Username already in use');
             }
           });
-      }),
-    body('password').trim().isLength({ min: 8 })
+      })
+      .not().isEmpty(),
+    body('user.password').trim().isLength({ min: 8 })
   ],
   authController.signup
 )
 
-//TODO: add login route
+router.post('/login',
+  [
+    body('password').trim().isLength({ min: 8 }),
+    body('username').trim().not().isEmpty()
+  ],
+  authController.login
+);
 
 //TODO: add logout route
 

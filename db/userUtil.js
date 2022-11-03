@@ -4,7 +4,7 @@ const { marshall } = require("@aws-sdk/util-dynamodb");
 
 const TABLE_NAME = "users";
 
-export const putUser = (user) => {
+exports.putUser = (user) => {
   // Set the parameters
   const params = {
     TableName: TABLE_NAME,
@@ -14,7 +14,7 @@ export const putUser = (user) => {
   return ddbClient.send(command);
 };
 
-export const getUser = (username) => {
+exports.getUser = (username) => {
   // Set the parameters
   const params = {
     TableName: TABLE_NAME,
