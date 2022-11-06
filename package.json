@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "start-server": "node ./bin/www" 
+    "start-server": "node ./bin/www"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.201.0",
     "@aws-sdk/client-s3": "^3.199.0",
+    "@aws-sdk/s3-request-presigner": "^3.204.0",
     "@aws-sdk/util-dynamodb": "^3.201.0",
     "aws-sdk": "^2.1230.0",
     "bcrypt": "^5.1.0",
@@ -22,6 +23,7 @@
     "jade": "^1.9.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20"
   }
 }

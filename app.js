@@ -7,7 +7,8 @@ const cors = require('cors');
 const port = process.env.PORT || 8080;
 
 // var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth');
+const artworkRouter = require('./routes/artwork');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 
 // app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/artwork', artworkRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
