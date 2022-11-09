@@ -5,32 +5,29 @@ const util = require('util');
 const unlinkFile = util.promisify(fs.unlink)
 
 
-exports.uploadArtwork = file => {
+exports.uploadArtwork = async (file, username, name, description) => {
   const filename = file.filename;
-
   // put to S3
-  uploadFile(file)
-    .then(async result => {
-      // remove file from server
-      await unlinkFile(file.path);
+  await uploadFile(file);
+  // remove file from server
+  await unlinkFile(file.path);
 
-      // put to dynamodb
-      const name = req.body.name;
-      const description = req.body.description;
-      const username = req.body.username;
-      const date = Date.now().toString();
-
-      const artwork = {
-        name: name,
-        description: description,
-        username: username,
-        filekey: filename,
-        date: date
-      };
-      return artworkUtil.putArtwork(artwork);
-    })
-    .catch(error => { // error with s3
-      console.log(error);
-      throw new Error("Error adding artwork to S3");
-    });
+  // put to dynamodb
+  const date = Date.now().toString();
+  const artwork = {
+    name: name,
+    description: description,
+    username: username,
+    filekey: filename,
+    date: date
+  };
+  const response = await artworkUtil.putArtwork(artwork);
+  return new Promise((resolve, reject) => {
+    if (response.$metadata.httpStatusCode == 200) {
+      resolve(artwork);
+    } else {
+      const error = new Error("Error adding artwork to db");
+      reject(error);
+    }
+  });
 };

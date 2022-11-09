@@ -35,6 +35,6 @@ exports.getFileUrl = async (fileKey) => {
   if (url) {
     return url;
   } else {
-    throw new Error("Failed to retrieve from S3");
+     next(new Error("Failed to retrieve from S3"));
   }
 };

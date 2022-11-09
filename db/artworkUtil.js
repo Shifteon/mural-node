@@ -12,3 +12,12 @@ exports.putArtwork = (artwork) => {
   const command = new PutItemCommand(params);
   return ddbClient.send(command);
 };
+
+exports.getArtwork = (date, username) => {
+  const params = {
+    TableName: TABLE_NAME,
+    Key: marshall({ date: date, username: username })
+  }
+  const command = new GetItemCommand(params);
+  return ddbClient.send(command);
+}
