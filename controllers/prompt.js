@@ -55,5 +55,5 @@ exports.getArtwork = (req, res, next) => {
     })
     .catch(error => {
       next(error);
-    })
+    });
 };

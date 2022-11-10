@@ -7,11 +7,11 @@ var router = express.Router();
 
 router.put('/signup',
   [
-    body('user.email')
+    body('email')
       .isEmail()
       .withMessage('Please enter a valid email')
       .normalizeEmail(),
-    body('user.username')
+    body('username')
       .trim()
       .custom((value, { req }) => {
         // make sure username doesn't exist
@@ -23,7 +23,7 @@ router.put('/signup',
           });
       })
       .not().isEmpty(),
-    body('user.password').trim().isLength({ min: 8 })
+    body('password').trim().isLength({ min: 8 })
   ],
   authController.signup
 )

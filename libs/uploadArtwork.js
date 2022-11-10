@@ -1,4 +1,5 @@
 const artworkUtil = require('../db/artworkUtil');
+const userUtil = require('../db/userUtil');
 const { uploadFile } = require('../libs/s3Util');
 const fs = require('fs');
 const util = require('util');
@@ -21,7 +22,12 @@ exports.uploadArtwork = async (file, username, name, description) => {
     filekey: filename,
     date: date
   };
-  const response = await artworkUtil.putArtwork(artwork);
+  
+  let response;
+  response = await userUtil.addArtworkToUser(artwork, username);
+  if (response.$metadata.httpStatusCode == 200) {
+    response = await artworkUtil.putArtwork(artwork);
+  }
   return new Promise((resolve, reject) => {
     if (response.$metadata.httpStatusCode == 200) {
       resolve(artwork);

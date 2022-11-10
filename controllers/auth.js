@@ -15,7 +15,15 @@ exports.signup = (req, res, next) => {
       throw error;
    }
 
-  let user = req.body.user;
+  let user = {
+    username: req.body.username,
+    password: req.body.password,
+    name: req.body.name,
+    email: req.body.name,
+    bio: req.body.bio,
+    profilePic: req.body.profilePic,
+    artwork: []
+  };
   
   bcrypt
     .hash(user.password, 12)
