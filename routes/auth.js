@@ -3,9 +3,11 @@ const { body } = require('express-validator');
 const authController = require('../controllers/auth');
 const userUtil = require('../db/userUtil');
 const isAuth = require('../middleware/isAuth');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 var router = express.Router();
 
-router.put('/signup',
+router.put('/signup', upload.single('profilePic'),
   [
     body('email')
       .isEmail()

@@ -11,7 +11,6 @@ exports.addArtwork = async (req, res, next) => {
   const dateKey = req.body.dateKey;
 
   const artwork = await uploadArtwork(file, username, name, description);
-  console.log(`line:14 ${artwork}`);
   // add the artwork to the prompt
   addArtworkToPrompt(dateKey, artwork.date, artwork.username)
     .then(result => {

@@ -2,18 +2,29 @@ const userUtil = require('../db/userUtil');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const { unmarshall } = require('@aws-sdk/util-dynamodb');
+const { uploadFile } = require('../libs/s3Util');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
-exports.signup = (req, res, next) => {
+exports.signup = async (req, res, next) => {
   // check for errors
   const errors = validationResult(req);
-   if (!errors.isEmpty()) {
-      const error = new Error('Validation failed.');
-      error.statusCode = 422;
-      error.data = errors.array();
-      throw error;
-   }
+  if (!errors.isEmpty()) {
+    const error = new Error('Validation failed.');
+    error.statusCode = 422;
+    error.data = errors.array();
+    next(error);
+  }
+
+  const file = req.file;
+  const filename = file.filename;
+  // put to S3
+  await uploadFile(file);
+  // remove file from server
+  await unlinkFile(file.path);
 
   let user = {
     username: req.body.username,
@@ -21,7 +32,7 @@ exports.signup = (req, res, next) => {
     name: req.body.name,
     email: req.body.name,
     bio: req.body.bio,
-    profilePic: req.body.profilePic,
+    profilePic: filename,
     artwork: []
   };
   

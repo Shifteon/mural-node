@@ -3,7 +3,7 @@ const userUtil = require('../db/userUtil');
 const { uploadFile } = require('../libs/s3Util');
 const fs = require('fs');
 const util = require('util');
-const unlinkFile = util.promisify(fs.unlink)
+const unlinkFile = util.promisify(fs.unlink);
 
 
 exports.uploadArtwork = async (file, username, name, description) => {
@@ -22,7 +22,7 @@ exports.uploadArtwork = async (file, username, name, description) => {
     filekey: filename,
     date: date
   };
-  
+
   let response;
   response = await userUtil.addArtworkToUser(artwork, username);
   if (response.$metadata.httpStatusCode == 200) {
