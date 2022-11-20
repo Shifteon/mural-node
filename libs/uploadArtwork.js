@@ -5,7 +5,7 @@ const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 
-
+// TODO: need to make sure the username matches the signed in user
 exports.uploadArtwork = async (file, username, name, description) => {
   const filename = file.filename;
   // put to S3

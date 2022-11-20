@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.put('/', isAuth, upload.single('image'), artworkController.addArtwork);
 
-router.get('/:key', isAuth, artworkController.getArtwork);
+router.get('/:key', artworkController.getArtwork);
 
 module.exports = router;

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
-    "start-server": "node ./bin/www"
+    "start-server": "nodemon app.js",
+    "start": "node app.js"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.201.0",

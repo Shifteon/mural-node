@@ -1,4 +1,4 @@
-const { getArtworkFromUser } = require('../db/userUtil');
+const { getArtworkFromUser, getUser } = require('../db/userUtil');
 const { uploadArtwork } = require('../libs/uploadArtwork');
 
 exports.getUserArtwork = (req, res, next) => {
@@ -32,3 +32,17 @@ exports.addArtworkToUser = (req, res, next) => {
       next(error);
     })
 };
+
+exports.getUserInfo = (req, res, next) => {
+  const username = req.params.username;
+
+  getUser(username)
+    .then(user => {
+      res.status(200).send({
+        user: user.Item
+      });
+    })
+    .catch(error => {
+      next(error);
+    })
+}

@@ -45,7 +45,7 @@ exports.getArtworkFromTable = async (key, tableName) => {
       resolve(artworkList);
     } else {
       const error = new Error("No artwork found");
-      error.status = 404;
+      error.statusCode = 404;
       reject(error);
     }
   });

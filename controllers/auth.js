@@ -30,7 +30,7 @@ exports.signup = async (req, res, next) => {
     username: req.body.username,
     password: req.body.password,
     name: req.body.name,
-    email: req.body.name,
+    email: req.body.email,
     bio: req.body.bio,
     profilePic: filename,
     artwork: []
@@ -93,7 +93,8 @@ exports.login = (req, res, next) => {
               { expiresIn: '1h' }
             );
             return res.status(200).json({
-              accessToken: accessToken
+              accessToken: accessToken,
+              user: {...user, password: ''}
             });
           } else {
             // user couldn't be authenticated

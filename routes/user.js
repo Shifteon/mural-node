@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.get('/artwork/:username', isAuth, userController.getUserArtwork);
 
+router.get('/:username', isAuth, userController.getUserInfo);
+
 router.put('/artwork', isAuth, upload.single('artwork'), userController.addArtworkToUser);
 
 module.exports = router;
