@@ -30,7 +30,7 @@ exports.getPrompt = (req, res, next) => {
       if (record.Item) {
         const prompt = unmarshall(record.Item);
         return res.status(200).send({
-          prompt: prompt.prompt
+          prompt: prompt
         });
       } else {
         const error = new Error("Error getting prompt");

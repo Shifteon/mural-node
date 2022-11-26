@@ -1,5 +1,6 @@
 const { getArtworkFromUser, getUser } = require('../db/userUtil');
 const { uploadArtwork } = require('../libs/uploadArtwork');
+const { unmarshall } = require('@aws-sdk/util-dynamodb');
 
 exports.getUserArtwork = (req, res, next) => {
   const username = req.params.username;
@@ -39,7 +40,7 @@ exports.getUserInfo = (req, res, next) => {
   getUser(username)
     .then(user => {
       res.status(200).send({
-        user: user.Item
+        user: unmarshall(user.Item)
       });
     })
     .catch(error => {

@@ -17,6 +17,11 @@ exports.signup = async (req, res, next) => {
     error.statusCode = 422;
     error.data = errors.array();
     next(error);
+    const file = req.file;
+    if (file) {
+      await unlinkFile(file.path);
+    }
+    return;
   }
 
   const file = req.file;
