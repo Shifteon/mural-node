@@ -26,6 +26,9 @@ router.put('/signup', upload.single('profilePic'),
       })
       .not().isEmpty(),
     body('password').trim().isLength({ min: 8 })
+      .withMessage('Password must have 8 or more characters'),
+    body('name').not.isEmpty().withMessage("Name can't be empty"),
+    body('bio').not.isEmpty().withMessage("Bio can't be empty")
   ],
   authController.signup
 )

@@ -24,12 +24,14 @@ exports.signup = async (req, res, next) => {
     return;
   }
 
-  const file = req.file;
-  const filename = file.filename;
-  // put to S3
-  await uploadFile(file);
-  // remove file from server
-  await unlinkFile(file.path);
+  if (req.file) {
+    const file = req.file;
+    const filename = file.filename;
+    // put to S3
+    await uploadFile(file);
+    // remove file from server
+    await unlinkFile(file.path);
+  } 
 
   let user = {
     username: req.body.username,
