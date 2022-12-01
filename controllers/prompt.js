@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const { unmarshall } = require('@aws-sdk/util-dynamodb');
 const { uploadArtwork } = require('../libs/uploadArtwork');
-const { getTodaysPrompt, addArtworkToPrompt, getArtworkFromPrompt } = require('../db/promptUtil');
+const { getTodaysPrompt, addArtworkToPrompt, getArtworkFromPrompt, getPreviousPrompts } = require('../db/promptUtil');
 
 exports.addArtwork = async (req, res, next) => {
   const file = req.file;
@@ -50,6 +50,20 @@ exports.getArtwork = (req, res, next) => {
       res.status(200).send({
         message: "Successfully got artwork",
         artwork: artwork
+      });
+    })
+    .catch(error => {
+      next(error);
+    });
+};
+
+exports.getPrevious = (req, res, next) => {
+  getPreviousPrompts()
+    .then(result => {
+      const prompts = result.Items.map(prompt => unmarshall(prompt));
+      res.status(200).send({
+        message: "Successfully got prompts",
+        prompts: prompts
       });
     })
     .catch(error => {

@@ -10,6 +10,8 @@ router.get('/', isAuth, promptController.getPrompt);
 
 router.put('/addArtwork', isAuth, upload.single('artwork'), promptController.addArtwork);
 
+router.get('/previous', isAuth, promptController.getPrevious);
+
 router.get('/:dateKey', isAuth, promptController.getArtwork);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const ddbClient = require("../libs/ddbClient");
-const { PutItemCommand, GetItemCommand, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
+const { GetItemCommand, UpdateItemCommand, ScanCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const { getArtworkFromTable } = require('../db/artworkUtil');
 
@@ -7,7 +7,7 @@ const TABLE_NAME = "prompts";
 
 exports.getTodaysPrompt = () => {
   const date = new Date();
-  const dateKey = `${date.getUTCMonth()}${date.getUTCDate()}${date.getUTCFullYear()}`
+  const dateKey = `${date.getUTCFullYear()}${date.getUTCMonth()}${date.getUTCDate()}`;
 
   const params = {
     TableName: TABLE_NAME,
@@ -33,4 +33,16 @@ exports.addArtworkToPrompt = (dateKey, date, username) => {
 exports.getArtworkFromPrompt = async (dateKey) => {
   const key = { date: dateKey };
   return await getArtworkFromTable(key, TABLE_NAME);
+};
+
+exports.getPreviousPrompts = () => {
+  const params = {
+    TableName: TABLE_NAME,
+    Select: "SPECIFIC_ATTRIBUTES",
+    ProjectionExpression: "#D, prompt",
+    ExpressionAttributeNames: {"#D": "date"}
+  };
+
+  const command = new ScanCommand(params);
+  return ddbClient.send(command);
 };
