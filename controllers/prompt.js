@@ -60,7 +60,15 @@ exports.getArtwork = (req, res, next) => {
 exports.getPrevious = (req, res, next) => {
   getPreviousPrompts()
     .then(result => {
-      const prompts = result.Items.map(prompt => unmarshall(prompt));
+      let prompts = result.Items.map(prompt => unmarshall(prompt));
+      const date = new Date();
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth();
+      const day = date.getUTCDate();
+      prompts = prompts.filter(p => {
+        const date = p.date.split(",");
+        return date[0] <= year && (date[1] < month || date[1] == month && date[2] <= day);
+      });
       res.status(200).send({
         message: "Successfully got prompts",
         prompts: prompts

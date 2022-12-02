@@ -7,7 +7,7 @@ const TABLE_NAME = "prompts";
 
 exports.getTodaysPrompt = () => {
   const date = new Date();
-  const dateKey = `${date.getUTCFullYear()}${date.getUTCMonth()}${date.getUTCDate()}`;
+  const dateKey = `${date.getUTCFullYear()},${date.getUTCMonth()},${date.getUTCDate()}`;
 
   const params = {
     TableName: TABLE_NAME,
