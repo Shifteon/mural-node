@@ -4,6 +4,13 @@ const { uploadArtwork } = require('../libs/uploadArtwork');
 const { getTodaysPrompt, addArtworkToPrompt, getArtworkFromPrompt, getPreviousPrompts } = require('../db/promptUtil');
 
 exports.addArtwork = async (req, res, next) => {
+  if (!req.file) {
+    res.status(400).send({
+      message: "Please upload some artwork"
+    });
+    return;
+  }
+
   const file = req.file;
   const username = req.body.username;
   const description = req.body.description;

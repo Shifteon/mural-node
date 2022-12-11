@@ -11,6 +11,7 @@ const authRouter = require('./routes/auth');
 const artworkRouter = require('./routes/artwork');
 const promptRouter = require('./routes/prompt');
 const userRouter = require('./routes/user');
+const smsRouter = require('./routes/sms');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use('/auth', authRouter);
 app.use('/artwork', artworkRouter);
 app.use('/prompt', promptRouter);
 app.use('/user', userRouter);
+app.use('/sms', smsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

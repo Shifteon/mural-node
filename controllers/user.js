@@ -17,6 +17,13 @@ exports.getUserArtwork = (req, res, next) => {
 };
 
 exports.addArtworkToUser = (req, res, next) => {
+  if (!req.file) {
+    res.status(400).send({
+      message: "Please upload some artwork"
+    });
+    return;
+  }
+
   const username = req.body.username;
   const file = req.file;
   const description = req.body.description;

@@ -24,6 +24,8 @@ exports.signup = async (req, res, next) => {
     return;
   }
 
+  console.log(req.file);
+
   if (req.file) {
     const file = req.file;
     const filename = file.filename;
@@ -39,7 +41,7 @@ exports.signup = async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     bio: req.body.bio,
-    profilePic: filename,
+    profilePic: req.file ? req.file.filename : "",
     artwork: []
   };
   
