@@ -72,9 +72,13 @@ exports.getPrevious = (req, res, next) => {
       const year = date.getUTCFullYear();
       const month = date.getUTCMonth();
       const day = date.getUTCDate();
+      console.log(prompts);
+      console.log(year);
+      console.log(month);
+      console.log(day);
       prompts = prompts.filter(p => {
         const date = p.date.split(",");
-        return date[0] <= year && (date[1] < month || date[1] == month && date[2] <= day);
+        return date[0] < year || date[0] == year && (date[1] < month || date[1] == month && date[2] <= day);
       });
       res.status(200).send({
         message: "Successfully got prompts",
